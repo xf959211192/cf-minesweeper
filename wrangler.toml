@@ -2,13 +2,11 @@ name = "mines"
 main = "src/optimized.js"
 compatibility_date = "2025-06-20"
 
-# KV 存储已移除 - 完全迁移到 D1 数据库
 
-# D1 数据库配置 - 替代 KV 存储
 [[d1_databases]]
 binding = "DB"
 database_name = "mines"
-database_id = "3b5cfd13-d009-4fa7-a71e-5d2dafe07948"
+database_id = "your-d1-id"
 
 [env.production]
 name = "mines"
