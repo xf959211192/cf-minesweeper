@@ -13,9 +13,9 @@
 
 ## 🎮 在线体验
 
-### [立即开始游戏 - 最新版本](https://test5.abo-vendor289.workers.dev)
+### [立即开始游戏 - 最新版本](https://mines.abo-vendor289.workers.dev)
 
-### [经典版本](https://mines.abo-vendor289.workers.dev)
+### [备用地址](https://test5.abo-vendor289.workers.dev)
 
 <br><br>
 ![image](https://github.com/user-attachments/assets/bd1ba746-ed7e-4071-95fe-7ef6f2c582a0)

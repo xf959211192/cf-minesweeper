@@ -1,4 +1,4 @@
-name = "test5"
+name = "mines"
 main = "src/optimized.js"
 compatibility_date = "2025-06-20"
 
@@ -11,4 +11,4 @@ database_name = "mines"
 database_id = "3b5cfd13-d009-4fa7-a71e-5d2dafe07948"
 
 [env.production]
-name = "test5"
+name = "mines"
