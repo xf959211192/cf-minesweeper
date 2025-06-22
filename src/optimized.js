@@ -1734,7 +1734,9 @@ export default {
       return new Response(getGameHTML(nonce), {
         headers: {
           'Content-Type': 'text/html;charset=UTF-8',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
           // 增强的安全头部
           'X-Content-Type-Options': 'nosniff',
           'X-Frame-Options': 'DENY',
@@ -1758,9 +1760,29 @@ export default {
       return new Response(JSON.stringify({
         status: 'healthy',
         timestamp: new Date().toISOString(),
-        version: '2.0.0-security-enhanced'
+        version: '2.0.1-cache-fix'
       }), {
         headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // 缓存清除端点
+    if (url.pathname === '/clear-cache') {
+      // 清除内存缓存
+      globalCache.clear();
+
+      return new Response(JSON.stringify({
+        success: true,
+        message: '缓存已清除',
+        timestamp: new Date().toISOString(),
+        action: '请刷新页面查看最新版本'
+      }), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
       });
     }
 
@@ -1769,12 +1791,18 @@ export default {
 };
 
 function getGameHTML(nonce) {
+  // 添加版本号和时间戳，强制浏览器更新缓存
+  const version = `2.0.1-${Date.now()}`;
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>经典扫雷 - Classic Minesweeper</title>
+    <meta name="version" content="${version}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style nonce="${nonce}">
         :root {
             --cell-size: 30px;
