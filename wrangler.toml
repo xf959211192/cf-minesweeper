@@ -1,0 +1,14 @@
+name = "test5"
+main = "src/optimized.js"
+compatibility_date = "2025-06-20"
+
+# KV 存储已移除 - 完全迁移到 D1 数据库
+
+# D1 数据库配置 - 替代 KV 存储
+[[d1_databases]]
+binding = "DB"
+database_name = "cf-minesweeper-db"
+database_id = "b1670baa-49f6-4e94-89a8-5475fc0d4a3f"
+
+[env.production]
+name = "test5"
