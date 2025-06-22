@@ -8,7 +8,7 @@ compatibility_date = "2025-06-20"
 [[d1_databases]]
 binding = "DB"
 database_name = "mines"
-database_id = "3b5cfd13-d009-4fa7-a71e-5d2dafe07948"
+database_id = "your-d1-id"
 
 [env.production]
 name = "mines"
