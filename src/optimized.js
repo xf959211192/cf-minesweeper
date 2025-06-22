@@ -2706,9 +2706,9 @@ function getGameHTML(nonce) {
             <div class="leaderboard-header">
                 <h3>🏆 排行榜</h3>
                 <div class="leaderboard-tabs">
-                    <button class="tab-button active" onclick="switchLeaderboard('beginner')">初级</button>
-                    <button class="tab-button" onclick="switchLeaderboard('intermediate')">中级</button>
-                    <button class="tab-button" onclick="switchLeaderboard('expert')">专家</button>
+                    <button class="tab-button active" data-difficulty="beginner">初级</button>
+                    <button class="tab-button" data-difficulty="intermediate">中级</button>
+                    <button class="tab-button" data-difficulty="expert">专家</button>
                 </div>
             </div>
             <div class="leaderboard-list" id="leaderboard-list">
@@ -2721,7 +2721,7 @@ function getGameHTML(nonce) {
             <div class="game-content">
                 <div class="game-header">
                     <div class="counter" id="mine-counter">010</div>
-                    <button class="smiley-button" id="smiley-button" onclick="newGame()">😊</button>
+                    <button class="smiley-button" id="smiley-button">😊</button>
                     <div class="counter" id="timer">000</div>
                 </div>
 
@@ -2735,11 +2735,11 @@ function getGameHTML(nonce) {
         <div class="right-panel">
             <div class="difficulty-selector">
                 <div class="difficulty-buttons">
-                    <button class="difficulty-button active" onclick="setDifficulty('beginner')">初级</button>
-                    <button class="difficulty-button" onclick="setDifficulty('intermediate')">中级</button>
-                    <button class="difficulty-button" onclick="setDifficulty('expert')">专家</button>
+                    <button class="difficulty-button active" data-difficulty="beginner">初级</button>
+                    <button class="difficulty-button" data-difficulty="intermediate">中级</button>
+                    <button class="difficulty-button" data-difficulty="expert">专家</button>
                 </div>
-                <button class="help-button" onclick="showHelp()">帮助</button>
+                <button class="help-button" id="help-button">帮助</button>
             </div>
         </div>
     </div>
@@ -2754,8 +2754,8 @@ function getGameHTML(nonce) {
                 <input type="text" id="modal-input" class="modal-input" placeholder="请输入您的用户名（最多8个汉字或16个字符）" maxlength="16">
             </div>
             <div>
-                <button id="modal-cancel" class="modal-button" onclick="handleModalCancel()" style="display: none;">取消</button>
-                <button id="modal-confirm" class="modal-button" onclick="handleModalConfirm()">确定</button>
+                <button id="modal-cancel" class="modal-button" style="display: none;">取消</button>
+                <button id="modal-confirm" class="modal-button">确定</button>
             </div>
         </div>
     </div>
@@ -3451,13 +3451,15 @@ function getGameHTML(nonce) {
         }
 
         // 全局函数
-        function setDifficulty(difficulty) {
+        function setDifficulty(difficulty, event) {
             if (!game) return;
 
             document.querySelectorAll('.difficulty-button').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
 
             game.currentDifficulty = difficulty;
             game.initGame();
@@ -3490,13 +3492,15 @@ function getGameHTML(nonce) {
             showModal('怎么玩', '🎯', helpMessage);
         }
 
-        function switchLeaderboard(difficulty) {
+        function switchLeaderboard(difficulty, event) {
             currentLeaderboardDifficulty = difficulty;
 
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
 
             loadLeaderboard(difficulty, true); // 切换时强制刷新
         }
@@ -3855,6 +3859,51 @@ function getGameHTML(nonce) {
                 return false;
             });
 
+            // 绑定所有按钮事件（修复 CSP 阻止内联 onclick 的问题）
+
+            // 1. 笑脸按钮事件
+            const smileyButton = document.getElementById('smiley-button');
+            if (smileyButton) {
+                smileyButton.addEventListener('click', newGame);
+            }
+
+            // 2. 帮助按钮事件
+            const helpButton = document.getElementById('help-button');
+            if (helpButton) {
+                helpButton.addEventListener('click', showHelp);
+            }
+
+            // 3. 难度选择按钮事件
+            document.querySelectorAll('.difficulty-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const difficulty = e.target.getAttribute('data-difficulty');
+                    if (difficulty) {
+                        setDifficulty(difficulty, e);
+                    }
+                });
+            });
+
+            // 4. 排行榜标签页事件
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const difficulty = e.target.getAttribute('data-difficulty');
+                    if (difficulty) {
+                        switchLeaderboard(difficulty, e);
+                    }
+                });
+            });
+
+            // 5. 模态框按钮事件
+            const modalConfirm = document.getElementById('modal-confirm');
+            const modalCancel = document.getElementById('modal-cancel');
+
+            if (modalConfirm) {
+                modalConfirm.addEventListener('click', handleModalConfirm);
+            }
+
+            if (modalCancel) {
+                modalCancel.addEventListener('click', handleModalCancel);
+            }
 
         });
     </script>

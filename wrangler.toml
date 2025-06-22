@@ -7,8 +7,8 @@ compatibility_date = "2025-06-20"
 # D1 数据库配置 - 替代 KV 存储
 [[d1_databases]]
 binding = "DB"
-database_name = "cf-minesweeper-db"
-database_id = "b1670baa-49f6-4e94-89a8-5475fc0d4a3f"
+database_name = "mines"
+database_id = "3b5cfd13-d009-4fa7-a71e-5d2dafe07948"
 
 [env.production]
 name = "test5"
