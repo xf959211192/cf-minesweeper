@@ -9,13 +9,10 @@
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/kadidalax/cf-minesweeper)
 
 > 🎯 **新手友好**：无需任何命令行操作，点击按钮即可自动完成所有配置和部署！
-> 🆕 **2025年6月重大更新**：完全迁移到 D1 数据库，性能和功能大幅提升！
 
 ## 🎮 在线体验
 
-### [立即开始游戏 - 最新版本](https://mines.abo-vendor289.workers.dev)
-
-### [备用地址](https://test5.abo-vendor289.workers.dev)
+### [立即开始游戏](https://mines.abo-vendor289.workers.dev)
 
 <br><br>
 ![image](https://github.com/user-attachments/assets/bd1ba746-ed7e-4071-95fe-7ef6f2c582a0)
@@ -239,52 +236,6 @@ npx wrangler d1 execute cf-minesweeper-db --command="SELECT COUNT(*) FROM leader
 > 🎯 **自定义域名**：部署完成后，可以在 Cloudflare Dashboard 中绑定自定义域名
 > 📊 **监控分析**：可以在 Cloudflare Analytics 中查看访问统计和性能数据
 
-## 🔧 故障排除
-
-### 🚨 常见部署问题
-
-**❌ 问题：`npm ci` 依赖版本不匹配**
-```
-npm error Invalid: lock file's wrangler@3.x.x does not satisfy wrangler@^4.20.5
-```
-**✅ 解决方案：**
-```bash
-# 删除旧的依赖
-rm -rf node_modules package-lock.json
-
-# 重新安装最新依赖
-npm install
-
-# 验证 wrangler 版本
-npx wrangler --version  # 应该显示 4.20.5+
-```
-
-**❌ 问题：D1 数据库创建失败**
-```
-Error: You need to specify a D1 database ID
-```
-**✅ 解决方案：**
-- 确保已登录 Cloudflare：`npx wrangler login`
-- 检查账户权限：需要 Workers 和 D1 权限
-- 手动在 Cloudflare Dashboard 中创建 D1 数据库
-
-**❌ 问题：数据库表不存在**
-```
-Error: no such table: leaderboards
-```
-**✅ 解决方案：**
-- 执行数据库迁移：`npx wrangler d1 execute cf-minesweeper-db --file=./migrations/schema.sql`
-- 或手动创建表结构
-- 确认数据库绑定配置正确
-
-**❌ 问题：部署后游戏无法加载**
-**✅ 解决方案：**
-- 检查 Worker 日志：`npx wrangler tail`
-- 确认 D1 数据库绑定正确
-- 验证 wrangler.toml 配置
-- 测试数据库连接：`npx wrangler d1 execute cf-minesweeper-db --command="SELECT 1;"`
-
-
 
 ### 📞 获取帮助
 
@@ -338,84 +289,6 @@ Error: no such table: leaderboards
 - **智能响应式布局**：动态计算最佳格子大小，自适应屏幕尺寸
 - **性能优化**：事件委托和批量DOM更新
 
-## 📝 开发日志
-
-### 🎯 核心功能开发 (v1.0)
-- ✅ 项目初始化和基础架构
-- ✅ 经典UI界面实现
-- ✅ 游戏逻辑核心算法
-- ✅ 交互功能完整实现
-- ✅ 双键快速挖掘功能
-
-### 🎨 界面优化升级 (v1.1)
-- ✅ 深色主题重设计
-- ✅ 毛玻璃效果和现代化视觉
-- ✅ 格子状态区分度大幅提升
-- ✅ 完美居中布局系统
-- ✅ 智能边界保护机制
-
-### 🏆 排行榜系统 (v1.2)
-- ✅ Cloudflare KV 数据存储
-- ✅ 实时排行榜功能
-- ✅ 智能成绩对比系统
-- ✅ 个性化用户反馈
-
-### ⚡ 用户体验优化 (v1.3)
-- ✅ 智能响应式布局系统
-- ✅ 右键菜单完全禁用
-- ✅ 移动端触摸支持
-- ✅ 游戏状态管理和优化
-- ✅ 精美模态框和动画效果
-
-### 🗄️ D1 数据库迁移 (v2.0 - 2025年6月重大更新)
-- ✅ **数据库架构设计**：完整的 D1 SQLite 数据库设计
-- ✅ **排行榜系统重构**：从 KV 迁移到 D1，支持复杂查询
-- ✅ **用户统计系统**：新增用户行为分析和统计功能
-- ✅ **安全防护升级**：多层速率限制和异常检测
-- ✅ **安全增强**：强化输入验证和错误处理机制
-- ✅ **性能优化**：SQL 聚合查询，大幅提升数据处理能力
-- ✅ **自动维护**：智能数据清理和系统健康监控
-- ✅ **零停机迁移**：完美的向后兼容性，用户体验无影响
-
-### 🚀 技术栈现代化成果
-- **数据存储**：KV Storage → D1 SQLite Database
-- **查询能力**：简单键值 → 复杂 SQL 查询和聚合
-- **数据完整性**：基础存储 → 事务支持和约束保护
-- **扩展性**：有限 → 无限扩展可能
-- **监控能力**：基础 → 全面的系统健康监控
-
-## 📚 API 文档
-
-### 🎮 游戏 API
-
-#### 获取排行榜
-```http
-GET /api/leaderboard?difficulty=beginner&limit=20
-```
-
-#### 提交成绩
-```http
-POST /api/leaderboard
-Content-Type: application/json
-
-{
-  "username": "player1",
-  "difficulty": "beginner",
-  "time": 85,
-  "gameId": "unique-game-id",
-  "moves": 25
-}
-```
-
-
-
-### 🔍 系统监控 API
-
-#### 健康检查
-```http
-GET /health
-GET /api/health
-```
 
 ## 🤝 贡献
 
