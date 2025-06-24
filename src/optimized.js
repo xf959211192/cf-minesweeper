@@ -1,4 +1,4 @@
-// 🎮 扫雷游戏 - Cloudflare Workers 版本
+// 🎮 扫雷游戏 - Cloudflare pages 版本
 // 经典扫雷游戏，支持多难度级别和在线排行榜
 
 // 数据验证工具类
