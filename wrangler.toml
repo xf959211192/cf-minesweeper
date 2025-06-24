@@ -5,8 +5,8 @@ compatibility_date = "2025-06-20"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "test6-mines"
-database_id = "2c3e85c7-c603-418f-a4e8-0a64957cdfd6"
+database_name = "cf-minesweeper"
+database_id = "your-d1-id"
 
 [env.production]
-name = "test6"
+name = "cf-minesweeper"
