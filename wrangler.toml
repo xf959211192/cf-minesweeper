@@ -8,4 +8,4 @@ database_name = "cf-minesweeper"
 database_id = "24a13577-4030-4619-9e71-6e3c184c9de5"
 
 [env.production]
-name = "cf-minesweeper-prod"
+name = "cf-minesweeper"
